@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 var debug = require('debug');
-var app = require('../app');
+var app = require('../src/app');
 
 // set debugger environment
 var info = debug('info:');

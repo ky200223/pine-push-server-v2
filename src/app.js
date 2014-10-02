@@ -6,7 +6,10 @@ var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-/**
+/** handler push request
+ * @name push handler
+ * @function
+ * @example
  * Push type list
  *
  * 10 : new thread posted
