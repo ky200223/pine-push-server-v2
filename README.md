@@ -15,8 +15,16 @@ Generate documentation
     
     Run docs/index.htm on your browser!
     
+    
+Test
+-----
 
-Run server
------------
+    $ export PUSH_SERVER_TEST=true && mocha --reporter nyan --require global.js $(find ./test -name '*test.js') 
 
-    $ export DEBUG=info:*,warn:*,error:* && node bin/www
+
+Run
+----
+
+    $ export PUSH_SERVER_ENV=local (or dev, production)
+    
+    $ export PUSH_SERVER_ENV=local && export DEBUG=info:*,warn:*,error:* && node bin/www
