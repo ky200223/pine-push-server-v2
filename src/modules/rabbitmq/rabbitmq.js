@@ -2,6 +2,8 @@ var config = require(PROJECT_ROOT + '/src/config.js');
 var async = require('async');
 
 var info = require('debug')('info:rabbitmq');
+var warn = require('debug')('warn:rabbitmq');
+var error = require('debug')('error:rabbitmq');
 var rabbit = require('rabbit.js');
 
 
@@ -10,6 +12,7 @@ var rabbit = require('rabbit.js');
  */
 
 var context, push, worker;
+var reconnectCount = 0;
 
 /** Connect rabbitmq, push socket, worker socket
  * <br>Connection success, you can access <b>rabbitmq.push</b>, <b>rabbitmq.worker</b>.
@@ -17,7 +20,7 @@ var context, push, worker;
  * @function
  * @param callback {function} callback function
  */
-exports.connect = function (callback) {
+var connect = function (callback) {
   async.series([
     closeSockets,
     createContext,
@@ -44,8 +47,24 @@ exports.connect = function (callback) {
   function createContext(next) {
     context = rabbit.createContext(config.AMQP_HOST);
     context.on('ready', function () {
-      info('RabbitMQ is connected.');
+      info('RabbitMQ connected.');
       next();
+    });
+
+    context.on('error', function (e) {
+      error(e);
+    });
+
+    context.on('close', function () {
+      error('RabbitMQ closed.');
+      info('RabbitMQ try to reconnect... ' + reconnectCount);
+      if (reconnectCount++ < 10)
+        setTimeout(connect, 2000);
+      else {
+        error('RabbitMQ connection fail');
+        error('Server is shutting down...');
+        process.exit(1);
+      }
     });
   }
 
@@ -65,3 +84,4 @@ exports.connect = function (callback) {
     });
   }
 };
+exports.connect = connect;

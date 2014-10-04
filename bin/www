@@ -1,43 +1,14 @@
 #!/usr/bin/env node
-var debug = require('debug');
+var info = require('debug')('info:bin/www');
+var error = require('debug')('error:bin/www');
 var app = require('../src/app');
 var global = require('../global.js');
-
-// set debugger environment
-var info = debug('info:');
-info.log = console.log.bind(console);
-var warn = debug('warn:');
-warn.log = console.warn.bind(console);
-var error = debug('error:');
-error.log = console.error.bind(console);
+var rabbitmq = require(SOURCE_ROOT + '/modules/rabbitmq/rabbitmq.js');
 
 app.set('port', process.env.PORT || 8500);
 
-var context = require('rabbit.js').createContext('amqp://localhost');
-var server;
-context.on('ready', function () {
-  info('RabbitMQ is connected.');
-
-  var push = context.socket('PUSH');
-//  sub.pipe(process.stdout);
-//  sub.connect('events', function() {
-  push.connect('events', function() {
-//      pub.write(JSON.stringify({welcome: 'rabbit.js'}), 'utf8');
-    push.write('blahblah...');
-    });
-//  });
-
-  server = app.listen(app.get('port'), function() {
+rabbitmq.connect(function () {
+  var server = app.listen(app.get('port'), function() {
     info('Express server listening on port ' + server.address().port);
   });
-});
-
-context.on('error', function (e) {
-  error('RabbitMQ error: ' + e);
-});
-
-context.on('close', function () {
-  error('RabbitMQ closed.');
-  error('Express server is going to shutdown...');
-  server.close();
 });
