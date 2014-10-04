@@ -1,3 +1,5 @@
+var rabbitmq = require(SOURCE_ROOT + '/modules/rabbitmq/rabbitmq.js');
+
 /**
  * @module pushhandler
  */
@@ -16,14 +18,14 @@
  *
  * Request
  * {
- *    push_type:    (Number),
- *    push_badge:   (Number),
- *    push_message: (String),
- *    event_date:   (String, ex. '2014-08-14 13:28:02'),
- *    image_url:    (String),
- *    summary:      (String),
- *    thread_id:    (Number),
- *    comment_id:   (Number)
+ *    push_type:    (required, Number),
+ *    push_badge:   (optional, Number),
+ *    push_message: (required, String),
+ *    event_date:   (required, String, ex. '2014-08-14 13:28:02'),
+ *    image_url:    (required, String),
+ *    summary:      (required, String),
+ *    thread_id:    (optional, Number),
+ *    comment_id:   (optional, Number)
  * }
  *
  * Response
@@ -39,10 +41,31 @@
  * }
  */
 exports.handleRequest = function (req, res) {
-  console.log(req.body.push_type);
+  var push = rabbitmq.push;
+  var body = req.body;
 
-  res.status(200).type('application/json').json({
-    result: 'success',
-    message: ''
-  });
+  // check required keys
+  if (body.push_type === undefined) {res.status(400).json({message:'Required key(push_type) is not defined', code: 10}); return;}
+  if (body.push_message === undefined) {res.status(400).json({message:'Required key(push_message) is not defined', code: 10}); return;}
+  if (body.event_date === undefined) {res.status(400).json({message:'Required key(event_date) is not defined', code: 10}); return;}
+  if (body.image_url === undefined) {res.status(400).json({message:'Required key(image_url) is not defined', code: 10}); return;}
+  if (body.summary === undefined) {res.status(400).json({message:'Required key(summary) is not defined', code: 10}); return;}
+  // check optional keys
+  body.push_badge = body.push_badge !== undefined ? body.push_badge : 1;
+  body.thread_id = body.thread_id !== undefined ? body.thread_id : '';
+  body.comment_id = body.comment_id !== undefined ? body.comment_id : '';
+
+  var message = {
+    push_type: body.push_type,
+    push_badge: body.push_badge,
+    push_message: body.push_message,
+    event_date: body.event_date,
+    image_url: body.image_url,
+    summary: body.summary,
+    thread_id: body.thread_id,
+    comment_id: body.comment_id
+  };
+  push.write(JSON.stringify(message), 'utf8');
+
+  res.status(200).end();
 };

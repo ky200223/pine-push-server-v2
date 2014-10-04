@@ -1,10 +1,13 @@
+var config = require(SOURCE_ROOT + '/config.js');
 var express = require('express');
+var logger = require('morgan');
 var bodyParser = require('body-parser');
 
 var pushHandler = require(SOURCE_ROOT + '/handlers/pushhandler.js');
 
 var app = express();
 
+if (config.env != 'production') app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 

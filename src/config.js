@@ -5,6 +5,27 @@ var test = process.env.PUSH_SERVER_TEST || 'false';
  * @module {object} config
  */
 
+
+
+/**
+ * env = local or dev or production
+ * <br> You can set env by 'export PUSH_SERVER_ENV=local' in bash
+ * @type {string}
+ */
+exports.env = process.env.PUSH_SERVER_ENV || 'local';
+
+/**
+ * Hostname - '127.0.0.1'
+ * @type {string}
+ */
+exports.HOSTNAME = '127.0.0.1';
+
+/**
+ * Port - default 8500
+ * @type {number}
+ */
+exports.PORT = 8500;
+
 /**
  * AMQP host - amqp://localhost
  * @type {string}
