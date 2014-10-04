@@ -21,14 +21,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
  *
  * Request
  * {
- *    push_type:    (int),
- *    push_badge:   (String),
+ *    push_type:    (Number),
+ *    push_badge:   (Number),
  *    push_message: (String),
- *    event_date:   (String),
+ *    event_date:   (String, ex. '2014-08-14 13:28:02'),
  *    image_url:    (String),
  *    summary:      (String),
- *    thread_id:    (String),
- *    comment_id:   (String)
+ *    thread_id:    (Number),
+ *    comment_id:   (Number)
  * }
  *
  * Response
@@ -43,7 +43,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
  *    }]
  * }
  */
-app.use('/push', function(req, res) {
+app.post('/push/dev', function(req, res) {
+  console.log(req.body.push_type);
+
   res.status(200).type('application/json').json({
     result: 'success',
     message: ''
@@ -69,19 +71,17 @@ app.use(function(req, res, next) {
 // will print stacktrace
 if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
-        });
+      res.status(err.status || 500).type('application/json').json({
+        message: err.message,
+        error: {}
+      });
     });
 }
 
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
+    res.status(err.status || 500).type('application/json').json({
         message: err.message,
         error: {}
     });

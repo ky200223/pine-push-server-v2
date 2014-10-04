@@ -12,6 +12,31 @@ error.log = console.error.bind(console);
 
 app.set('port', process.env.PORT || 8500);
 
-var server = app.listen(app.get('port'), function() {
-  debug('Express server listening on port ' + server.address().port);
+var context = require('rabbit.js').createContext('amqp://localhost');
+var server;
+context.on('ready', function () {
+  info('RabbitMQ is connected.');
+
+  var push = context.socket('PUSH');
+//  sub.pipe(process.stdout);
+//  sub.connect('events', function() {
+  push.connect('events', function() {
+//      pub.write(JSON.stringify({welcome: 'rabbit.js'}), 'utf8');
+    push.write('blahblah...');
+    });
+//  });
+
+  server = app.listen(app.get('port'), function() {
+    info('Express server listening on port ' + server.address().port);
+  });
+});
+
+context.on('error', function (e) {
+  error('RabbitMQ error: ' + e);
+});
+
+context.on('close', function () {
+  error('RabbitMQ closed.');
+  error('Express server is going to shutdown...');
+  server.close();
 });

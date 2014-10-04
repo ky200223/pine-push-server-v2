@@ -14,3 +14,9 @@ Generate documentation
     $ ./node_modules/.bin/jsdoc --destination docs --recurse src/
     
     Run docs/index.htm on your browser!
+    
+
+Run server
+-----------
+
+    $ export DEBUG=info:*,warn:*,error:* && node bin/www
