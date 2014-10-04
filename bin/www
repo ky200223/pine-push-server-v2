@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 var debug = require('debug');
 var app = require('../src/app');
+var global = require('../global.js');
 
 // set debugger environment
 var info = debug('info:');
