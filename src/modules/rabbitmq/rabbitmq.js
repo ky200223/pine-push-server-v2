@@ -17,6 +17,7 @@ var reconnectCount = 0;
 /** Connect rabbitmq, push socket, worker socket
  * <br>Connection success, you can access <b>rabbitmq.push</b>, <b>rabbitmq.worker</b>.
  * <br>If failed, push or worker is undefined or close (First access fail is undefined, after is null)
+ * <br>After connection fail, it reconnects rabbitmq server, after 10 try to reconnect kill process itself.
  * @function
  * @param callback {function} callback function
  */
