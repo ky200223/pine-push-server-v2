@@ -3,7 +3,7 @@ var express = require('express');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 
-var pushHandler = require(SOURCE_ROOT + '/handlers/pushhandler.js');
+var pushRouter = require(SOURCE_ROOT + '/routers/push.js');
 
 var app = express();
 
@@ -11,8 +11,8 @@ if (config.env != 'production') app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.post('/push/dev', pushHandler.handleRequest);
 
+app.use(/^\/push/i, pushRouter);
 
 
 // catch 404 and forward to error handler

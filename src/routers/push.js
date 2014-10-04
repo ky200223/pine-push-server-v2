@@ -1,11 +1,8 @@
+var router = require('express').Router();
 var rabbitmq = require(SOURCE_ROOT + '/modules/rabbitmq/rabbitmq.js');
 
 /**
- * @module pushhandler
- */
-
-/** handle push request
- * @function
+ * @module Push router
  * @example
  * Push type list
  *
@@ -40,8 +37,10 @@ var rabbitmq = require(SOURCE_ROOT + '/modules/rabbitmq/rabbitmq.js');
  *    }]
  * }
  */
-exports.handleRequest = function (req, res) {
-  var push = rabbitmq.push;
+
+// Check request paramters.
+// If required parameter undefined, it returns error.
+router.use(function (req, res, next) {
   var body = req.body;
 
   // check required keys
@@ -50,12 +49,21 @@ exports.handleRequest = function (req, res) {
   if (body.event_date === undefined) {res.status(400).json({message:'Required key(event_date) is not defined', code: 10}); return;}
   if (body.image_url === undefined) {res.status(400).json({message:'Required key(image_url) is not defined', code: 10}); return;}
   if (body.summary === undefined) {res.status(400).json({message:'Required key(summary) is not defined', code: 10}); return;}
+
   // check optional keys
   body.push_badge = body.push_badge !== undefined ? body.push_badge : 1;
   body.thread_id = body.thread_id !== undefined ? body.thread_id : '';
   body.comment_id = body.comment_id !== undefined ? body.comment_id : '';
 
+  next();
+});
+
+// It sends message to rabbitmq
+router.post(/\/dev/i, function (req, res) {
+  var body = req.body;
+
   var message = {
+    push_env: 'dev',
     push_type: body.push_type,
     push_badge: body.push_badge,
     push_message: body.push_message,
@@ -65,7 +73,27 @@ exports.handleRequest = function (req, res) {
     thread_id: body.thread_id,
     comment_id: body.comment_id
   };
-  push.write(JSON.stringify(message), 'utf8');
-
+  rabbitmq.push.write(JSON.stringify(message), 'utf8');
   res.status(200).end();
-};
+});
+
+// It sends message to rabbitmq
+router.post(/\/production/i, function (req, res) {
+  var body = req.body;
+
+  var message = {
+    push_env: 'production',
+    push_type: body.push_type,
+    push_badge: body.push_badge,
+    push_message: body.push_message,
+    event_date: body.event_date,
+    image_url: body.image_url,
+    summary: body.summary,
+    thread_id: body.thread_id,
+    comment_id: body.comment_id
+  };
+  rabbitmq.push.write(JSON.stringify(message), 'utf8');
+  res.status(200).end();
+});
+
+module.exports = router;

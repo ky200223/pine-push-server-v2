@@ -3,7 +3,7 @@ var chai = require('chai');
 var http = require('http');
 var moment = require('moment');
 
-describe('INTEGRATION TEST: src/handlers/pushhandler.js', function() {
+describe('INTEGRATION TEST: src/routers/push.js', function() {
   var should = chai.should();
   describe('POST /push/dev', function() {
     var options = {
