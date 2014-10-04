@@ -75,6 +75,14 @@ var connect = function (callback) {
       info('Push socket connected.');
       next();
     });
+
+    push.on('error', function(e) {
+      error('Push socket error: ' + e)
+    });
+
+    push.on('close', function() {
+      info('Push socket closed');
+    });
   }
 
   function connectWorker(next) {
@@ -82,6 +90,14 @@ var connect = function (callback) {
     worker.connect(config.AMQP_QUEUE_NAME, function () {
       info('Worker socket connected.');
       next();
+    });
+
+    worker.on('error', function(e) {
+      error('Worker socket error: ' + e)
+    });
+
+    worker.on('close', function() {
+      info('Worker socket closed');
     });
   }
 };
