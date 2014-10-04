@@ -1,8 +1,8 @@
 #!/usr/bin/env node
+var global = require('../global.js');
 var info = require('debug')('info:bin/www');
 var error = require('debug')('error:bin/www');
 var app = require('../src/app');
-var global = require('../global.js');
 var rabbitmq = require(SOURCE_ROOT + '/modules/rabbitmq/rabbitmq.js');
 
 app.set('port', process.env.PORT || 8500);
