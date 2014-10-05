@@ -1,3 +1,4 @@
+var info = require('debug')('info:routers:push');
 var router = require('express').Router();
 var rabbitmq = require(SOURCE_ROOT + '/modules/rabbitmq/rabbitmq.js');
 
@@ -40,7 +41,7 @@ var rabbitmq = require(SOURCE_ROOT + '/modules/rabbitmq/rabbitmq.js');
 
 // Check request paramters.
 // If required parameter undefined, it returns error.
-router.use(function (req, res, next) {
+router.post('/', function (req, res) {
   var body = req.body;
 
   // check required keys
@@ -55,15 +56,7 @@ router.use(function (req, res, next) {
   body.thread_id = body.thread_id !== undefined ? body.thread_id : '';
   body.comment_id = body.comment_id !== undefined ? body.comment_id : '';
 
-  next();
-});
-
-// It sends message to rabbitmq
-router.post(/\/dev/i, function (req, res) {
-  var body = req.body;
-
   var message = {
-    push_env: 'dev',
     push_type: body.push_type,
     push_badge: body.push_badge,
     push_message: body.push_message,
@@ -74,26 +67,9 @@ router.post(/\/dev/i, function (req, res) {
     comment_id: body.comment_id
   };
   rabbitmq.push.write(JSON.stringify(message), 'utf8');
+  info('Write to MQ: ' + JSON.stringify(message));
   res.status(200).end();
 });
 
-// It sends message to rabbitmq
-router.post(/\/production/i, function (req, res) {
-  var body = req.body;
-
-  var message = {
-    push_env: 'production',
-    push_type: body.push_type,
-    push_badge: body.push_badge,
-    push_message: body.push_message,
-    event_date: body.event_date,
-    image_url: body.image_url,
-    summary: body.summary,
-    thread_id: body.thread_id,
-    comment_id: body.comment_id
-  };
-  rabbitmq.push.write(JSON.stringify(message), 'utf8');
-  res.status(200).end();
-});
 
 module.exports = router;

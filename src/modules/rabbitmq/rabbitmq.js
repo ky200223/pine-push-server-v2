@@ -21,7 +21,7 @@ var reconnectCount = 0;
  * @function
  * @param callback {function} callback function
  */
-var connect = function (callback) {
+exports.connect = function (callback) {
   async.series([
     closeSockets,
     createContext,
@@ -60,7 +60,7 @@ var connect = function (callback) {
       error('RabbitMQ closed.');
       info('RabbitMQ try to reconnect... ' + reconnectCount);
       if (reconnectCount++ < 10)
-        setTimeout(connect, 2000);
+        setTimeout(exports.connect, 2000);
       else {
         error('RabbitMQ connection fail');
         error('Server is shutting down...');
@@ -101,4 +101,3 @@ var connect = function (callback) {
     });
   }
 };
-exports.connect = connect;

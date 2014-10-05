@@ -5,11 +5,11 @@ var moment = require('moment');
 
 describe('INTEGRATION TEST: src/routers/push.js', function() {
   var should = chai.should();
-  describe('POST /push/dev', function() {
+  describe('POST /push', function() {
     var options = {
       hostname: config.HOSTNAME,
       port: config.PORT,
-      path: '/push/dev',
+      path: '/push',
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
