@@ -1,4 +1,4 @@
-var config = require(SOURCE_ROOT + '/config.js');
+var config = require(PROJECT_ROOT + '/config.js');
 var chai = require('chai');
 var http = require('http');
 var moment = require('moment');

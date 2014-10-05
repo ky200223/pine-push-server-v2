@@ -1,4 +1,4 @@
-var config = require(PROJECT_ROOT + '/src/config.js');
+var config = require(PROJECT_ROOT + '/config.js');
 var async = require('async');
 
 var info = require('debug')('info:rabbitmq');
