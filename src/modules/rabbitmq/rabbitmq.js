@@ -26,7 +26,7 @@ exports.connect = function (callback) {
     closeSockets,
     createContext,
     connectPush,
-    connectWorker
+//    connectWorker
   ], function (err, results) {
     if (err) throw err;
     callback();
