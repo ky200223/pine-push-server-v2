@@ -9,7 +9,7 @@ describe('INTEGRATION TEST: src/routers/push.js', function() {
     var options = {
       hostname: config.HOSTNAME,
       port: config.PORT,
-      path: '/push',
+      path: '/push/message',
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

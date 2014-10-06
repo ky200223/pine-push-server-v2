@@ -2,6 +2,8 @@ var info = require('debug')('info:routers:push');
 var router = require('express').Router();
 var rabbitmq = require(SOURCE_ROOT + '/modules/rabbitmq/rabbitmq.js');
 
+// todo /push/register
+
 /**
  * @module Push router
  * @example
@@ -41,7 +43,7 @@ var rabbitmq = require(SOURCE_ROOT + '/modules/rabbitmq/rabbitmq.js');
 
 // Check request paramters.
 // If required parameter undefined, it returns error.
-router.post('/', function (req, res) {
+router.post('/message', function (req, res) {
   var body = req.body;
 
   // check required keys
