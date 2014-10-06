@@ -5,7 +5,14 @@ var rabbitmq = require(SOURCE_ROOT + '/modules/rabbitmq/rabbitmq.js');
 // todo /push/register
 
 /**
- * @module Push router
+ * @module routers/push
+ * @description /push router
+ */
+
+/** push message request handler
+ * @name POST /push/message Handler
+ * @function
+ * @memberOf module:routers/push
  * @example
  * Push type list
  *
@@ -40,9 +47,6 @@ var rabbitmq = require(SOURCE_ROOT + '/modules/rabbitmq/rabbitmq.js');
  *    }]
  * }
  */
-
-// Check request paramters.
-// If required parameter undefined, it returns error.
 router.post('/message', function (req, res) {
   var body = req.body;
 
