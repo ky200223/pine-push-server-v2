@@ -4,7 +4,7 @@ Pine push server v2
 Features
 ---------
 
-PM2 + Node.js + RabbitMQ + Node.js(worker) + Push server (Uniqush-push)
+PM2 + Node.js + RabbitMQ + java(worker) + Push server (Uniqush-push)
 
 
 Generate documentation
@@ -36,7 +36,7 @@ API list
 * [POST /push/message] (#request-push-message)
 
 
-    
+
 Register push service
 ----------------------
 
@@ -46,7 +46,7 @@ Register push service
     {
       device_name:  (required, String),
       device_type:  (required, String - ios, android),
-      reg_id:       (required, String, gcm reg_id or apns token)
+      device_id:    (required, String, gcm reg_id or apns token)
     }
     
     If success, response status is 200
@@ -93,4 +93,5 @@ Error codes
 
 | Code | Text                                | Description                                                           |
 |:----:| ----------------------------------- | --------------------------------------------------------------------- |
-| 10   | Required key is not defined         | Should define required parameters                                     |
+| 10   | Required parameter is not defined   | Should define required parameters                                     |
+| 20   | Parameter is invalid                | Should correct parameter name                                         | 

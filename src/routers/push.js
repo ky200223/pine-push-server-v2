@@ -9,6 +9,52 @@ var rabbitmq = require(SOURCE_ROOT + '/modules/rabbitmq/rabbitmq.js');
  * @description /push router
  */
 
+
+/** register push service
+ * @name POST /push/register Handler
+ * @function
+ * @memberOf module:routers/push
+ * @example
+ * Request type='application/json'
+ * {
+ *   device_name:  (required, String),
+ *   device_type:  (required, String - ios, android),
+ *   device_id:    (required, String, gcm reg_id or apns token)
+ * }
+ *
+ * If success, response status is 200
+ * If error, response is below:
+ *
+ * Response type='application/json'
+ * {
+ *   'errors': [{
+ *     'message': 'Error occurred', 'code': 1
+ *   }]
+ * }
+ */
+router.post('/register', function (req, res) {
+  var DeviceType = {android: 1, ios: 2};
+
+  var body = req.body;
+
+  // check required parameters
+  if (body.device_name === undefined) {res.status(400).send(getErrorResponse(10, 'device_name')); return;}
+  if (body.device_type === undefined) {res.status(400).send(getErrorResponse(10, 'device_type')); return;}
+  if (body.device_id === undefined) {res.status(400).send(getErrorResponse(10, 'device_id')); return;}
+
+  // check valid device_type
+  if (!(body.device_type in DeviceType)) {res.status(400).send(getErrorResponse(20, 'device_type')); return;}
+
+  var message = {
+    device_name: body.device_name,
+    device_type: body.device_type,
+    device_id: body.device_id
+  };
+  rabbitmq.push.write(JSON.stringify(message), 'utf8');
+  info('Write to MQ: ' + JSON.stringify(message));
+  res.status(200).end();
+});
+
 /** push message request handler
  * @name POST /push/message Handler
  * @function
@@ -28,7 +74,7 @@ var rabbitmq = require(SOURCE_ROOT + '/modules/rabbitmq/rabbitmq.js');
  *    push_type:    (required, Number),
  *    push_badge:   (optional, Number),
  *    push_message: (required, String),
- *    event_date:   (required, String, ex. '2014-08-14 13:28:02'),
+ *    event_date:   (required, String, ex. '2014-08-14T13:28:02+09:00'),
  *    image_url:    (required, String),
  *    summary:      (required, String),
  *    thread_id:    (optional, Number),
@@ -51,11 +97,11 @@ router.post('/message', function (req, res) {
   var body = req.body;
 
   // check required keys
-  if (body.push_type === undefined) {res.status(400).json({message:'Required key(push_type) is not defined', code: 10}); return;}
-  if (body.push_message === undefined) {res.status(400).json({message:'Required key(push_message) is not defined', code: 10}); return;}
-  if (body.event_date === undefined) {res.status(400).json({message:'Required key(event_date) is not defined', code: 10}); return;}
-  if (body.image_url === undefined) {res.status(400).json({message:'Required key(image_url) is not defined', code: 10}); return;}
-  if (body.summary === undefined) {res.status(400).json({message:'Required key(summary) is not defined', code: 10}); return;}
+  if (body.push_type === undefined) {res.status(400).send(getErrorResponse(10, 'push_type')); return;}
+  if (body.push_message === undefined) {res.status(400).send(getErrorResponse(10, 'push_message')); return;}
+  if (body.event_date === undefined) {res.status(400).send(getErrorResponse(10, 'event_date')); return;}
+  if (body.image_url === undefined) {res.status(400).send(getErrorResponse(10, 'image_url')); return;}
+  if (body.summary === undefined) {res.status(400).send(getErrorResponse(10, 'summary')); return;}
 
   // check optional keys
   body.push_badge = body.push_badge !== undefined ? body.push_badge : 1;
@@ -76,6 +122,20 @@ router.post('/message', function (req, res) {
   info('Write to MQ: ' + JSON.stringify(message));
   res.status(200).end();
 });
+
+function getErrorResponse(errorCode, param) {
+  var message = 'Response error code does not detected';
+  param = param !== undefined ? param : ' ';
+
+  switch (errorCode) {
+    case 10: message = 'Required parameter (' + param + ') is not defined'; break;
+    case 20: message = 'Parameter (' + param + ') is invalid'; break;
+  }
+  return {
+    message: message,
+    code: errorCode
+  }
+}
 
 
 module.exports = router;

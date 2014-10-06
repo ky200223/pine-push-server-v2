@@ -28,6 +28,12 @@ exports.HOSTNAME = '127.0.0.1';
 exports.PORT = 8500;
 
 /**
+ * Url - http://HOSTNAME:PORT
+ * @type {string}
+ */
+exports.BASE_URL = 'http://' + exports.HOSTNAME + ':' + exports.PORT;
+
+/**
  * AMQP host - amqp://localhost
  * @type {string}
  */
