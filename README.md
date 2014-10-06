@@ -30,8 +30,40 @@ Run
     $ export PUSH_SERVER_ENV=local && export DEBUG=info:*,warn:*,error:* && node bin/www
     
     
-Request examples
------------------
+API list
+---------
+* [/push/register POST] (#Register push service)
+* [/push/message  POST] (#Request push message)
+
+
+    
+Register push service
+----------------------
+
+    POST /push/register
+
+    Request type='application/json'
+    {
+      device_name:  (required, String),
+      device_type:  (required, String - ios, android),
+      reg_id:       (required, String, gcm reg_id or apns token)
+    }
+    
+    If success, response status is 200
+    If error, response is below:
+    
+    Response type='application/json'
+    {
+      'errors': [{
+        'message': 'Error occurred', 'code': 1
+      }]
+    }
+
+
+Request push message
+---------------------
+
+    POST /push/message
 
     Request type='application/json'
     {
