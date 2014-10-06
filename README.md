@@ -32,8 +32,8 @@ Run
     
 API list
 ---------
-* [/push/register POST] (#Register push service)
-* [/push/message  POST] (#Request push message)
+* [/push/register POST] (#register-push-service)
+* [/push/message  POST] (#request-push-message)
 
 
     
