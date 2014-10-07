@@ -67,6 +67,7 @@ Request push message
 
     Request type='application/json'
     {
+      device_name:  (required, String),
       push_type:    (required, Number),
       push_badge:   (optional, Number),
       push_message: (required, String),

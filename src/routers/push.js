@@ -80,6 +80,7 @@ router.post('/register', function (req, res) {
  *
  * Client Request
  * {
+ *    device_name:  (required, String),
  *    push_type:    (required, Number),
  *    push_badge:   (optional, Number),
  *    push_message: (required, String),
@@ -114,6 +115,7 @@ router.post('/message', function (req, res) {
   var body = req.body;
 
   // check required keys
+  if (body.device_name === undefined) {res.status(400).send(getErrorResponse(10, 'device_name')); return;}
   if (body.push_type === undefined) {res.status(400).send(getErrorResponse(10, 'push_type')); return;}
   if (body.push_message === undefined) {res.status(400).send(getErrorResponse(10, 'push_message')); return;}
   if (body.event_date === undefined) {res.status(400).send(getErrorResponse(10, 'event_date')); return;}
@@ -128,6 +130,7 @@ router.post('/message', function (req, res) {
   var delivery = {
     type: req.originalUrl,
     data: {
+      device_name: body.device_name,
       push_type: body.push_type,
       push_badge: body.push_badge,
       push_message: body.push_message,
