@@ -52,7 +52,7 @@ router.post('/register', function (req, res) {
   if (!(body.device_type in DeviceType)) {res.status(400).send(getErrorResponse(20, 'device_type')); return;}
 
   var delivery = {
-    type: req.path,
+    type: req.originalUrl,
     data: {
       device_name: body.device_name,
       device_type: body.device_type,
@@ -126,7 +126,7 @@ router.post('/message', function (req, res) {
   body.comment_id = body.comment_id !== undefined ? body.comment_id : '';
 
   var delivery = {
-    type: req.path,
+    type: req.originalUrl,
     data: {
       push_type: body.push_type,
       push_badge: body.push_badge,
