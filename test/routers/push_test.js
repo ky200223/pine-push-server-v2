@@ -23,7 +23,7 @@ describe('INTEGRATION TEST: src/routers/push.js', function() {
         done();
       });
       req.write(JSON.stringify({
-        device_name: 'device_name_test',
+        device_name: 'namhoon',
         push_type: 10,
         push_message: 'test_message',
         event_date: moment().format(),
