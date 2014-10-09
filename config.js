@@ -37,7 +37,7 @@ exports.BASE_URL = 'http://' + exports.HOSTNAME + ':' + exports.PORT;
  * AMQP host - amqp://localhost
  * @type {string}
  */
-exports.AMQP_HOST = 'amqp://localhost';
+exports.AMQP_HOST = 'amqp://localhost:8501';
 
 /**
  * AMQP queue name - <b>'push'</b>
