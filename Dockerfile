@@ -12,7 +12,7 @@ ENV NODE_HOME_DIR /root/.nvm/v0.11.14
 RUN \
   git clone https://github.com/creationix/nvm.git $HOME/.nvm \
   echo "source /.nvm/nvm.sh" >> $HOME/.profile \
-  /bin/bash -c 'source ~/.vnm/nvm.sh && nvm install $NODE_VER && nvm alias default $NODE_VER && ln -s $NODE_HOME_DIR/bin/node /usr/bin/node && ln -s $NODE_HOME_DIR/bin/npm /usr/bin/npm'
+  /bin/bash -c 'source ~/.nvm/nvm.sh && nvm install $NODE_VER && nvm alias default $NODE_VER && ln -s $NODE_HOME_DIR/bin/node /usr/bin/node && ln -s $NODE_HOME_DIR/bin/npm /usr/bin/npm'
 
 # Install source
 RUN \
