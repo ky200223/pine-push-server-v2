@@ -26,8 +26,18 @@ Run
 ----
 
     $ export PUSH_SERVER_ENV=local (or dev, production)
+    $ export DEBUG=info:*,warn:*,error:*
+    $ node bin/www
     
+    or
+        
     $ export PUSH_SERVER_ENV=local && export DEBUG=info:*,warn:*,error:* && node bin/www
+    
+    or
+    
+    $ sudo docker run -ti \
+                      -p 8520:8520 \
+                      reaperes/pine-push-server-v2
     
     
 API list
