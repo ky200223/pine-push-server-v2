@@ -1,17 +1,18 @@
 #!/bin/bash
 
+# parse arguments
 while [[ $# > 1 ]]
 do
   key="$1"
   shift
 
   case "$key" in
-    --env=*)
+    --env)
     export PUSH_SERVER_ENV="$1"
     shift
     ;;
 
-    --debug=*)
+    --debug)
     export DEBUG="$1"
     shift
     ;;
@@ -23,7 +24,6 @@ do
 
 esac
 done
-
 
 # check environments
 if [ "$PUSH_SERVER_ENV" != "local" ] && \
@@ -37,4 +37,6 @@ if [ -z "$DEBUG" ]; then
   export DEBUG=warn:*,error:*
 fi
 
+# Run application
+cd pine-push-server-v2
 node bin/www
