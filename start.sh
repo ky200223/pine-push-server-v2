@@ -17,7 +17,7 @@ do
     ;;
 
     *)
-    echo "Unknown option detected : $i ${i#*=}"
+    echo "Unknown option detected : $key"
     exit 1
     ;;
 

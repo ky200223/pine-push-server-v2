@@ -37,9 +37,12 @@ Run
 
     $ export PUSH_SERVER_ENV=local (or dev, production)
     $ export DEBUG=info:*,warn:*,error:*
-    $ sudo docker run -ti \
-                      -p 8500:8500 \
-                      reaperes/pine-push-server-v2
+    $ sudo docker run \
+        -ti \
+        -p 8500:8500 \
+        reaperes/pine-push-server-v2 \ 
+          --env dev \
+          --debug info:*,warn:*,error:*
     
     
 API list

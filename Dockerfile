@@ -23,6 +23,6 @@ RUN \
 # Run source
 ADD ./start.sh /start.sh
 RUN chmod +x /start.sh
-CMD ["/start.sh"]
+ENTRYPOINT ["/start.sh"]
 
 EXPOSE 8500
