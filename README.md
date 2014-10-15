@@ -36,7 +36,7 @@ Run
     or
     
     $ sudo docker run -ti \
-                      -p 8520:8520 \
+                      -p 8500:8500 \
                       reaperes/pine-push-server-v2
     
     
