@@ -14,13 +14,7 @@ RUN \
   echo "source /.nvm/nvm.sh" >> $HOME/.profile && \
   /bin/bash -c "source ~/.nvm/nvm.sh && nvm install $NODE_VER && nvm alias default $NODE_VER && ln -s $NODE_HOME_DIR/bin/node /usr/bin/node && ln -s $NODE_HOME_DIR/bin/npm /usr/bin/npm"
 
-# Install source
-RUN \
-  git clone https://github.com/reaperes/pine-push-server-v2.git && \
-  cd pine-push-server-v2 && \
-  npm install
-
-# Run source
+# Run application
 ADD ./start.sh /start.sh
 RUN chmod +x /start.sh
 ENTRYPOINT ["/start.sh"]

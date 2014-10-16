@@ -40,6 +40,7 @@ Run
     $ sudo docker run \
         -ti \
         -p 8500:8500 \
+        --link rabbitmq:rabbitmq
         reaperes/pine-push-server-v2 \ 
           --env dev \
           --debug info:*,warn:*,error:*

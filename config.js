@@ -35,9 +35,12 @@ exports.BASE_URL = 'http://' + exports.HOSTNAME + ':' + exports.PORT;
 
 /**
  * AMQP host - amqp://localhost
+ * If using docker it auto config docker 8510 ip + port
  * @type {string}
  */
 exports.AMQP_HOST = 'amqp://:8510';
+if (process.env.RABBITMQ_PORT_8510_TCP)
+  exports.AMQP_HOST = process.env.RABBITMQ_PORT_8510_TCP.replace(/^tcp/i, 'amqp');
 
 /**
  * AMQP queue name - <b>'push'</b>

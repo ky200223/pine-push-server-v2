@@ -37,6 +37,16 @@ if [ -z "$DEBUG" ]; then
   export DEBUG=warn:*,error:*
 fi
 
+
+# Clone source if directory does not exists
+if [ ! -d "$HOME/pine-push-server-v2" ]; then
+  git clone https://github.com/reaperes/pine-push-server-v2.git $HOME/pine-push-server-v2
+fi
+
+# update source
+cd $HOME/pine-push-server-v2
+git pull
+npm install
+
 # Run application
-cd pine-push-server-v2
 node bin/www
