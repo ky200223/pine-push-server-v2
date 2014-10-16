@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 require('../global.js');
-var info = require('debug')('info:bin/www');
-var error = require('debug')('error:bin/www');
 var app = require('../src/app');
 var rabbitmq = require(SOURCE_ROOT + '/modules/rabbitmq/rabbitmq.js');
 
@@ -9,6 +7,6 @@ app.set('port', 8500);
 
 rabbitmq.connect(function () {
   var server = app.listen(app.get('port'), function() {
-    info('Express server listening on port ' + server.address().port);
+    console.log('Express server listening on port ' + server.address().port);
   });
 });
