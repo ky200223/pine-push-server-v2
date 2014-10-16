@@ -35,8 +35,6 @@ Run
     
     or
 
-    $ export PUSH_SERVER_ENV=local (or dev, production)
-    $ export DEBUG=info:*,warn:*,error:*
     $ sudo docker run \
         -ti \
         -p 8500:8500 \
