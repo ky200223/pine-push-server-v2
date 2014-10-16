@@ -1,5 +1,5 @@
 var env = process.env.PUSH_SERVER_ENV || 'local';
-var test = process.env.PUSH_SERVER_TEST || 'false';
+var test = (process.env.PUSH_SERVER_TEST || 'false') == 'true';
 if (env != 'local' && env != 'dev' && env != 'production') console.error('PUSH_SERVER_ENV should be one of local, dev, production.');
 
 /**
