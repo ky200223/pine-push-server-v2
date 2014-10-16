@@ -41,7 +41,7 @@ Run
         -ti \
         -p 8500:8500 \
         --link rabbitmq:rabbitmq \
-        reaperes/pine-push-server-v2 \ 
+        reaperes/pine-push-server-v2 /start.sh \
           --env dev \
           --debug info:*,warn:*,error:*
     
