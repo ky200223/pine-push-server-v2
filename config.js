@@ -47,5 +47,5 @@ if (process.env.RABBITMQ_PORT_8510_TCP)
  * <br>If you exports PUSH_SERVER_TEST=true, queue name is <b>'push_test'</b>
  * @type {string}
  */
-exports.AMQP_QUEUE_NAME = 'push';
-if (test) exports.AMQP_QUEUE_NAME = 'push_test';
+exports.AMQP_QUEUE_NAME = 'pine';
+if (test) exports.AMQP_QUEUE_NAME = 'pine_test';
